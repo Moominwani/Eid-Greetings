@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Eid ul-Adha Greeting</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Poppins:wght@400;600&display=swap');
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #fef3c7, #d1fae5);
+      overflow-x: hidden;
+      color: #1e293b;
+      min-height: 100vh;
+    }
+    .centered {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .card {
+      background: #ffffffcc;
+      border-radius: 20px;
+      padding: 40px 30px;
+      max-width: 460px;
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+    input, button {
+      width: 100%;
+      font-size: 18px;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      border: 2px solid #10b981;
+      transition: border-color 0.3s;
+    }
+    input:focus {
+      outline: none;
+      border-color: #059669;
+      box-shadow: 0 0 8px #059669aa;
+    }
+    button {
+      background: #10b981;
+      color: white;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #059669;
+    }
+
+    .greeting-screen {
+      display: none;
+      position: relative;
+      min-height: 100vh;
+      padding: 60px 20px 120px;
+      background: linear-gradient(to bottom, #d1fae5, #fef3c7);
+      text-align: center;
+      overflow: hidden;
+      color: #065f46;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #047857;
+      text-shadow: 1px 1px 3px #a7f3d0;
+      position: relative;
+      z-index: 10;
+    }
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #065f46;
+      text-shadow: 1px 1px 2px #a7f3d0;
+      position: relative;
+      z-index: 10;
+    }
+    p {
+      font-size: 1.3rem;
+      max-width: 800px;
+      margin: 0 auto 30px;
+      line-height: 1.7;
+      color: #064e3b;
+      font-weight: 600;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Sheep */
+    .sheep-container {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 100;
+      height: 150px;
+    }
+    .sheep {
+      position: absolute;
+      bottom: 0;
+      user-select: none;
+      transform: scaleX(-1);
+      opacity: 0.95;
+      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+    }
+    .sheep.one {
+      height: 120px;
+      left: 0;
+      animation: walkSheep1 10s linear infinite;
+      animation-delay: 0s;
+    }
+    .sheep.two {
+      height: 100px;
+      left: -100px;
+      animation: walkSheep2 12s linear infinite;
+      animation-delay: 2s;
+    }
+    .sheep.three {
+      height: 80px;
+      left: -200px;
+      animation: walkSheep3 14s linear infinite;
+      animation-delay: 4s;
+    }
+    @keyframes walkSheep1 {
+      0%   { transform: translateX(0) scaleX(-1); }
+      100% { transform: translateX(130vw) scaleX(-1); }
+    }
+    @keyframes walkSheep2 {
+      0%   { transform: translateX(0) scaleX(-1); }
+      100% { transform: translateX(130vw) scaleX(-1); }
+    }
+    @keyframes walkSheep3 {
+      0%   { transform: translateX(0) scaleX(-1); }
+      100% { transform: translateX(130vw) scaleX(-1); }
+    }
+
+    /* Moon */
+    .moon {
+      position: fixed;
+      top: 30px;
+      right: 30px;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle at 30% 30%, #fff 0%, #f5f5f5 50%, #e0e0e0 100%);
+      border-radius: 50%;
+      box-shadow: 
+        0 0 20px 5px rgba(255, 255, 255, 0.8),
+        0 0 40px 15px rgba(255, 255, 255, 0.6),
+        0 0 60px 25px rgba(255, 255, 255, 0.4);
+      z-index: 1;
+      filter: blur(0.5px);
+    }
+
+    /* Floating Stars */
+    .floating-stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .floating-stars .star {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: radial-gradient(circle, #fff 0%, #fde68a 70%, #f59e0b 100%);
+      border-radius: 50%;
+      opacity: 0;
+      animation: floatStar 10s linear infinite;
+      filter: drop-shadow(0 0 5px rgba(255, 250, 205, 0.8));
+    }
+    @keyframes floatStar {
+      0% {
+        transform: translateY(100vh) scale(0.5);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.9;
+      }
+      90% {
+        opacity: 0.9;
+      }
+      100% {
+        transform: translateY(-20vh) scale(1.2);
+        opacity: 0;
+      }
+    }
+.name-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.name-float {
+  position: absolute;
+  font-size: 1.2rem;
+  color: rgba(6, 95, 70, 0.15);
+  font-weight: 700;
+  animation: floatName 20s linear infinite;
+  white-space: nowrap;
+}
+
+@keyframes floatName {
+  0% {
+    transform: translateY(100vh) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-120vh) translateX(20vw);
+    opacity: 0;
+  }
+}
+    /* Play Button */
+    #playBtn {
+      display: none;
+      margin-top: 20px;
+      padding: 14px 28px;
+      font-size: 18px;
+      background: #059669;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      box-shadow: 0 4px 8px rgba(5, 150, 105, 0.4);
+      transition: background 0.3s;
+      position: relative;
+      z-index: 10;
+    }
+    #playBtn:hover {
+      background: #047857;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      h1 { font-size: 2.2rem; }
+      h2 { font-size: 1.4rem; }
+      p { font-size: 1rem; max-width: 90%; }
+      .sheep.one { height: 90px; }
+      .sheep.two { height: 80px; }
+      .sheep.three { height: 70px; }
+      .moon { 
+        width: 60px; 
+        height: 60px; 
+        top: 20px; 
+        right: 20px; 
+        box-shadow: 
+          0 0 10px 3px rgba(255, 255, 255, 0.8),
+          0 0 20px 8px rgba(255, 255, 255, 0.6),
+          0 0 30px 15px rgba(255, 255, 255, 0.4);
+      }
+      .floating-stars .star { width: 8px; height: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Name Input -->
+<div class="centered" id="nameSection">
+  <div class="card">
+    <h1>🌙 Eid ul-Adha Mubarak 🌙</h1>
+    <input type="text" id="username" placeholder="Enter your name..." autocomplete="off" />
+    <button onclick="startGreeting()">Submit</button>
+  </div>
+</div>
+
+<!-- Greeting Screen -->
+<div class="greeting-screen" id="greetingSection">
+  <!-- Full Moon and Stars -->
+  <div class="floating-stars">
+    <div class="star" style="left: 5%; animation-delay: 0s;"></div>
+    <div class="star" style="left: 15%; animation-delay: 1.5s;"></div>
+    <div class="star" style="left: 25%; animation-delay: 3s;"></div>
+    <div class="star" style="left: 35%; animation-delay: 2s;"></div>
+    <div class="star" style="left: 45%; animation-delay: 4s;"></div>
+    <div class="star" style="left: 55%; animation-delay: 1s;"></div>
+    <div class="star" style="left: 65%; animation-delay: 3.5s;"></div>
+    <div class="star" style="left: 75%; animation-delay: 2.5s;"></div>
+    <div class="star" style="left: 85%; animation-delay: 0.5s;"></div>
+    <div class="star" style="left: 95%; animation-delay: 4.5s;"></div>
+  </div>
+  <!-- Floating Name Background -->
+<div class="name-background" id="nameBackground"></div>
+  <div class="moon"></div>
+
+  <h1 id="userGreeting">Dear User, Happy Eid ul-Adha Mubarak</h1>
+  <h2>From <span style="font-family: 'Cormorant Garamond', serif;">Moomin Ahmad Wani</span></h2>
+
+  <p>
+    🌙 <strong>Eid Mubarak</strong>!<br><br>
+    Dear <span id="userNameDisplay">Friend</span>, may your sacrifices be appreciated, and your prayers accepted on this blessed occasion of Eid ul-Adha. 💫<br><br>
+    🕋 <em>"Indeed, my prayer, my rites of sacrifice, my living and my dying are for Allah, Lord of the worlds." — Qur'an 6:162</em><br><br>
+    🐐 May the spirit of Eid bring you closer to Allah (SWT), strengthen your faith, and fill your life with peace, joy, and barakah. May your home be blessed with warmth and love. 🤍<br><br>
+    🙏 <strong>Dua for You:</strong><br>
+    "Taqabbalallahu minna wa minkum" — May Allah accept (good deeds) from us and from you.<br><br>
+    🌹 May your heart be as light as the moon, your days as bright as the sun, and your year ahead full of mercy and forgiveness.<br><br>
+    💝 Spread kindness, share meals, and celebrate with those in need — this is the true spirit of Eid.<br><br>
+    💌 Sending blessings, hugs, and halal vibes your way this Eid. Remember, you're in duas and smiles today.<br><br>
+    <strong>— Moomin Ahmad Wani</strong>
+  </p>
+
+  <button id="playBtn" onclick="playMusic()">🔊 Tap to Play Nasheed</button>
+
+  <audio id="bgMusic" loop>
+    <source src="taqabbalallah.mp3" type="audio/mpeg" />
+    Your browser doesn't support audio.
+  </audio>
+
+  <!-- Sheep Walking -->
+  <div class="sheep-container">
+    <img src="sheep.gif" class="sheep one" alt="walking sheep" />
+    <img src="sheep.gif" class="sheep two" alt="walking sheep" />
+    <img src="sheep.gif" class="sheep three" alt="walking sheep" />
+  </div>
+</div>
+
+<script>
+function startGreeting() {
+  const nameInput = document.getElementById("username");
+  const name = nameInput.value.trim();
+  if (!name) {
+    alert("Please enter your name.");
+    nameInput.focus();
+    return;
+  }
+
+  document.getElementById("userGreeting").textContent = `Dear ${name}, Happy Eid ul-Adha Mubarak`;
+  document.getElementById("userNameDisplay").textContent = name;
+  document.getElementById("nameSection").style.display = "none";
+  document.getElementById("greetingSection").style.display = "block";
+
+  createStars();
+  generateNameBackground(name);
+
+  const music = document.getElementById("bgMusic");
+  music.play().catch(() => {
+    document.getElementById("playBtn").style.display = "inline-block";
+  });
+}
+
+
+function createStars() {
+  const starsContainer = document.querySelector('.floating-stars');
+  for (let i = 0; i < 15; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.left = `${Math.random() * 100}%`;
+    star.style.animationDelay = `${Math.random() * 5}s`;
+    star.style.animationDuration = `${5 + Math.random() * 10}s`;
+    starsContainer.appendChild(star);
+  }
+}
+
+function playMusic() {
+  document.getElementById("bgMusic").play();
+  document.getElementById("playBtn").style.display = "none";
+}
+function generateNameBackground(name) {
+  const bg = document.getElementById("nameBackground");
+  for (let i = 0; i < 25; i++) {
+    const span = document.createElement("span");
+    span.className = "name-float";
+    span.textContent = name;
+    span.style.left = Math.random() * 100 + "%";
+    span.style.top = Math.random() * 100 + "%";
+    span.style.fontSize = `${0.8 + Math.random() * 1.5}rem`;
+    span.style.animationDelay = `${Math.random() * 10}s`;
+    span.style.animationDuration = `${15 + Math.random() * 10}s`;
+    bg.appendChild(span);
+  }
+}
+</script>
+
+</body>
+</html>
